@@ -13,6 +13,12 @@ import config
 
 
 def run_bot(bot=bot):
+    try:
+        rpc = GrapheneAPI(config.wallet_host, config.wallet_port, "", "")
+        rpc.unlock(config.wallet_password) # unlock the wallet.
+    except RPCError as e:
+        print(e)
+
     print(str(datetime.datetime.now()) + ": Starting bot...")
     print(str(datetime.datetime.now()) + ": Cancelling orders...")
     bot.cancel_all()
@@ -52,7 +58,7 @@ def register_account_faucet(account, public_key, referrer=config.referrer, fauce
 
 
 if __name__ == '__main__':
-    time.sleep(8) # sleep to give the cli_wallet time to start
+    time.sleep(5) # sleep to give the cli_wallet time to start
 
     # rpc connection
     rpc = GrapheneAPI(config.wallet_host, config.wallet_port, "", "")
